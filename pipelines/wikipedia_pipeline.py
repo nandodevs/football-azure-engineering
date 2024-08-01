@@ -30,7 +30,16 @@ def get_wikipedia_data(html_content):
     return all_table_rows
 
 def clean_text(text):
-    return text.strip()  # Limpa o texto removendo espaços em branco
+    text = str(text).strip()
+    text = text.replace('&nbsp', '')
+    if text.find(' ♦'):
+        text = text.split(' ♦')[0]
+    if text.find('[') != -1:
+        text = text.split('[')[0]
+    if text.find(' (formerly)') != -1:
+        text = text.split(' (formerly)')[0]
+
+    return text.replace('\n', '')
 
 def extract_wikipedia_data(**kwargs):
     url = kwargs['url']
