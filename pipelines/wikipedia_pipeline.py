@@ -1,10 +1,18 @@
-import geopy
 from geopy.geocoders import Nominatim
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from datetime import datetime
 import requests
 from lxml import html
 import json
 import pandas as pd
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the Azure account key from the environment variable
+key_azure = os.getenv('AZURE_ACCOUNT_KEY')
 
 NO_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/No-image-available.png/480px-No-image-available.png'
 
@@ -116,10 +124,27 @@ def write_wikipedia_data(**kwargs):
     data = pd.DataFrame(data)
 
     file_name = ('stadium_cleaned_' + str(datetime.now().date())
-                 + "_" + str(datetime.now().time()).replace(":", ",") + '.csv')
+                 + "_" + str(datetime.now().time()).replace(":", "_") + '.csv')
+    
+    # Salvar o DataFrame em um buffer em memória
+    csv_buffer = data.to_csv(index=False).encode('utf-8')
 
-    data.to_csv('data/' + file_name, index=False)
+    # Configuração do Azure Data Lake Storage Gen2
+    account_name = 'dataengfootballproject'
+    account_key = key_azure
+    container_name = 'footballdataeng'
 
+    # Cria o BlobServiceClient
+    blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net", credential=account_key)
+    container_client = blob_service_client.get_container_client(container_name)
+
+    # Carrega o arquivo para o container
+    blob_client = container_client.get_blob_client(file_name)
+    blob_client.upload_blob(csv_buffer, blob_type="BlockBlob")
+
+    print(f"Arquivo {file_name} enviado para o Azure Data Lake Gen2.")
+
+    
 
 
 
