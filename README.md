@@ -1,47 +1,113 @@
-# Football Data Engineering
+# Data Engineering Project - Football Stadiums
 
-This Python-based project crawls data from Wikipedia using Apache Airflow, cleans it and pushes it Azure Data Lake for processing.
+This project demonstrates a data engineering pipeline that extracts data from Wikipedia, processes and stores it in Azure Data Lake Gen2, and performs further transformations and analyses using Azure Data Factory and Databricks. The final data is visualized using Tableau, Power BI, and Looker Studio.
 
-## Table of Contents
+## Architecture
 
-1. [System Architecture](#system-architecture)
-2. [Requirements](#requirements)
-3. [Getting Started](#getting-started)
-4. [Running the Code With Docker](#running-the-code-with-docker)
-5. [How It Works](#how-it-works)
-6. [Video](#video)
+### Components
 
-## System Architecture
-![system_architecture.png](assets%2Fsystem_architecture.png)
+- **Wikipedia**: The source of raw data.
+- **Apache Airflow**: Orchestrates the data pipeline, fetching data from Wikipedia and storing it in Azure Data Lake Gen2.
+- **Azure Data Lake Gen2**: Stores raw and processed data.
+- **Azure Data Factory**: Manages the ETL (Extract, Transform, Load) processes.
+- **Databricks**: Performs data processing and transformation.
 
-## Requirements
-- Python 3.9 (minimum)
-- Docker
-- PostgreSQL
-- Apache Airflow 2.6 (minimum)
+### Visualization Tools
 
-## Getting Started
+- **Tableau**
+- **Power BI**
+- **Looker Studio**
 
-1. Clone the repository.
-   ```bash
-   git clone https://github.com/airscholar/FootballDataEngineering.git
-   ```
+## Prerequisites
 
-2. Install Python dependencies.
-   ```bash
-   pip install -r requirements.txt
-   ```
-   
-## Running the Code With Docker
+- Azure Subscription
+- Apache Airflow
+- Azure Data Lake Gen2
+- Azure Data Factory
+- Databricks
+- Tableau
+- Power BI
+- Looker Studio
 
-1. Start your services on Docker with
-   ```bash
-   docker compose up -d
-   ``` 
-2. Trigger the DAG on the Airflow UI.
+## Setup
 
-## How It Works
-1. Fetches data from Wikipedia.
-2. Cleans the data.
-3. Transforms the data.
-4. Pushes the data to Azure Data Lake.
+### Apache Airflow
+
+1. **Install Apache Airflow**:
+
+    ```sh
+    pip install apache-airflow
+    ```
+
+2. **Create a DAG**:
+
+    - Define a DAG to fetch data from Wikipedia and store it in Azure Data Lake Gen2.
+
+### Azure Data Lake Gen2
+
+1. **Create a Storage Account**:
+
+    - Follow these instructions to create a storage account.
+
+2. **Create a Container**:
+
+    - Create a container to store raw and processed data.
+
+### Azure Data Factory
+
+1. **Create a Data Factory**:
+
+    - Follow these instructions to create a Data Factory instance.
+
+2. **Create Pipelines**:
+
+    - Define pipelines to perform ETL processes.
+
+### Databricks
+
+1. **Create a Databricks Workspace**:
+
+    - Follow these instructions to create a Databricks workspace.
+
+2. **Create Notebooks**:
+
+    - Define notebooks to process and transform the data.
+
+## Visualization
+
+- **Tableau**: Connect Tableau to Azure Data Lake Gen2 or Databricks to visualize the data.
+- **Power BI**: Connect Power BI to Azure Data Lake Gen2 or Databricks to visualize the data.
+- **Looker Studio**: Connect Looker Studio to Azure Data Lake Gen2 or Databricks to visualize the data.
+
+## Running the Pipeline
+
+1. **Start Apache Airflow**:
+
+    ```sh
+    airflow webserver -p 8080
+    airflow scheduler
+    ```
+
+2. **Trigger the DAG**:
+
+    - Trigger the DAG to start fetching data from Wikipedia.
+
+3. **Monitor Data Factory**:
+
+    - Monitor the ETL processes in Azure Data Factory.
+
+4. **Run Databricks Notebooks**:
+
+    - Execute Databricks notebooks for data processing and transformation.
+
+5. **Visualize Data**:
+
+    - Use Tableau, Power BI, or Looker Studio to create visualizations from the processed data.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
