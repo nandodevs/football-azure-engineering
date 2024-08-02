@@ -80,7 +80,7 @@ def extract_wikipedia_data(**kwargs):
         return "OK"
 
 def get_lat_long(country, city):
-    geolocator = Nominatim(user_agent='geoapiExercises')
+    geolocator = Nominatim(user_agent="Mozilla/5.0")
     location = geolocator.geocode(f'{city}, {country}')
 
     if location:
@@ -94,14 +94,15 @@ def transform_wikipedia_data(**kwargs):
     data = json.loads(data)
 
     stadiums_df = pd.DataFrame(data)
-    stadiums_df['location'] = stadiums_df.apply(lambda x: geopy(x['country'], x['stadium']), axis=1)
+    stadiums_df['location'] = stadiums_df.apply(lambda x: get_lat_long(x['country'], x['stadium']), axis=1) # Replaced line
+
     #Function for no Image
     stadiums_df['images'] = stadiums_df['images'].apply(lambda x: x if x not in ['NO_IMAGE', '', None] else NO_IMAGE) 
     stadiums_df['capacity'] = stadiums_df['capacity'].astype(int)
 
     # handle the duplicates
     duplicates = stadiums_df[stadiums_df.duplicated(['location'])]
-    duplicates['location'] = duplicates.apply(lambda x: get_lat_long(x['country'], x['city']), axis=1)
+    #duplicates['location'] = duplicates.apply(lambda x: get_lat_long(x['country'], x['city']), axis=1)
     stadiums_df.update(duplicates)
 
     # push to xcom
