@@ -3,6 +3,8 @@
 This project demonstrates a data engineering pipeline that extracts data from Wikipedia, processes and stores it in Azure Data Lake Gen2, and performs further transformations and analyses using Azure Data Factory and Databricks. The final data is visualized using Tableau, Power BI, and Looker Studio.
 
 ## Architecture
+## System Architecture
+![system_architecture.png](assets%2Fsystem_architecture.png)
 
 ### Components
 
