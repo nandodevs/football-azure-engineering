@@ -7,7 +7,6 @@ import json
 import pandas as pd
 import os
 
-
 # Variavéis de Conexão Azure
 storage_account_name = "dataengfootballproject" 
 container_name = "footballdataeng"  
@@ -96,6 +95,7 @@ def get_lat_long(country, city):
     return None
 
 def transform_wikipedia_data(**kwargs):
+
     data = kwargs['ti'].xcom_pull(key='rows', task_ids='extract_data_from_wikipedia')
 
     data = json.loads(data)
