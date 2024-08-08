@@ -1,5 +1,6 @@
 from geopy.geocoders import Nominatim
 from azure.storage.blob import BlobServiceClient
+from azure.storage.filedatalake import DataLakeServiceClient
 from datetime import datetime
 import requests
 from lxml import html
@@ -10,7 +11,8 @@ import os
 # Variavéis de Conexão Azure
 storage_account_name = "dataengfootballproject" 
 container_name = "footballdataeng"  
-account_key = os.getenv('AZURE_ACCOUNT_KEY')  
+account_key = os.getenv('AZURE_ACCOUNT_KEY')
+account_url = f"https://{storage_account_name}.dfs.core.windows.net"
 
 NO_IMAGE = 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/No-image-available.png/480px-No-image-available.png'
 
@@ -79,10 +81,6 @@ def extract_wikipedia_data(**kwargs):
 
         json_rows = json.dumps(data)    
         kwargs['ti'].xcom_push(key='rows', value=json_rows)
-
-    # Code OK in Here  
-        # data_df = pd.DataFrame(data)
-        # data_df.to_csv("data/output.csv", index=False)
         return "OK"
 
 def get_lat_long(country, city):
@@ -129,8 +127,8 @@ def write_wikipedia_data(**kwargs):
     csv_buffer = data.to_csv(index=False)
 
     # Cria o BlobServiceClient
-    blob_service_client = BlobServiceClient(account_url=f"https://{storage_account_name}.blob.core.windows.net/", credential=account_key)
-    container_client = blob_service_client.get_container_client(container_name)
+    blob_service_client = DataLakeServiceClient(account_url=account_url, credential=account_key)
+    container_client = blob_service_client.get_file_system_client(container_name)
 
     # Carrega o arquivo para o container
     blob_client = container_client.get_blob_client(file_name)
