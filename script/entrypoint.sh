@@ -13,7 +13,7 @@ if [ ! -f "/opt/airflow/airflow.db" ]; then
     --firstname admin \
     --lastname admin \
     --role Admin \
-    --email admin@airscholar.com \
+    --email admin@nandodevs.com \
     --password admin
 fi
 
