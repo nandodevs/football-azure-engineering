@@ -105,6 +105,11 @@ This project demonstrates a data engineering pipeline that extracts data from Wi
 5. **Visualize Data**:
 
     - Use Tableau, Power BI, or Looker Studio to create visualizations from the processed data.
+    - Link for Power BI: https://abrir.link/JqqDM
+
+6. **Screenshots**:
+
+![Dashboard Power BI](https://i.imgur.com/3eeJSxb.jpeg)
 
 ## Contributing
 
